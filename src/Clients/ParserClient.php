@@ -103,7 +103,7 @@ class ParserClient implements ParserClientInterface
      *
      * @return string
      */
-    private function createSourceString(ParserClientConfiguratorInterface $configurator)
+    private function createSourceString(ParserClientConfiguratorInterface $configurator): string
     {
         return sprintf(
             '%s://%s',

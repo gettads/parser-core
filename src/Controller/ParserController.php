@@ -9,9 +9,16 @@ use App\Interfaces\BeautyPostsCropperInterface;
 use App\Interfaces\ParserDispatcherInterface;
 use App\Repository\ParsingRepository;
 use App\Repository\PostRepository;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Exceptions\PostNotFoundException;
 
+/**
+ * Class ParserController
+ *
+ * @package App\Controller
+ */
 class ParserController extends AbstractController
 {
     /**
@@ -54,7 +61,14 @@ class ParserController extends AbstractController
         $this->cropper = $cropper;
     }
 
-    public function index()
+    /**
+     * Routes in routes.yaml by https://symfony.com/doc/current/routing.html#creating-routes-as-annotations
+     *
+     * @return Response
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function index(): Response
     {
         $currentParsing = $this->parsingRepository->findLastOne();
         if ($currentParsing !== null) {
@@ -64,13 +78,23 @@ class ParserController extends AbstractController
         return $this->render('index/dashboard.html.twig', ['currentParsingState' => $currentParsing]);
     }
 
-    public function run()
+    /**
+     * Routes in routes.yaml by https://symfony.com/doc/current/routing.html#creating-routes-as-annotations
+     *
+     * @return RedirectResponse
+     */
+    public function run(): RedirectResponse
     {
         $this->dispatcher->dispatch();
         return $this->redirectToRoute('parsing_current');
     }
 
-    public function list()
+    /**
+     * Routes in routes.yaml by https://symfony.com/doc/current/routing.html#creating-routes-as-annotations
+     *
+     * @return Response
+     */
+    public function list(): Response
     {
         $historyParsings = $this->parsingRepository->findAllLimited();
         return $this->render('index/history.html.twig', [
@@ -79,7 +103,16 @@ class ParserController extends AbstractController
         ]);
     }
 
-    public function view(Parsing $parsing)
+    /**
+     * Routes in routes.yaml by https://symfony.com/doc/current/routing.html#creating-routes-as-annotations
+     *
+     * @param Parsing $parsing
+     *
+     * @return Response
+     *
+     * @throws ParsingNotFoundException
+     */
+    public function view(Parsing $parsing): Response
     {
         if (null === $parsing) {
             throw new ParsingNotFoundException();
@@ -89,7 +122,18 @@ class ParserController extends AbstractController
         return $this->render('index/dashboard.html.twig', ['currentParsingState' => $parsing]);
     }
 
-    public function postDetail(Parsing $parsing, Post $post)
+    /**
+     * Routes in routes.yaml by https://symfony.com/doc/current/routing.html#creating-routes-as-annotations
+     *
+     * @param Parsing $parsing
+     * @param Post $post
+     *
+     * @return Response
+     *
+     * @throws ParsingNotFoundException
+     * @throws PostNotFoundException
+     */
+    public function postDetail(Parsing $parsing, Post $post): Response
     {
         if (null === $parsing) {
             throw new ParsingNotFoundException();
@@ -99,5 +143,4 @@ class ParserController extends AbstractController
 
         return $this->render('index/post.html.twig', ['post' => $post, 'currentParsingState' => $parsing]);
     }
-
 }
