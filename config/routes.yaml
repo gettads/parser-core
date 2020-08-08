@@ -1,0 +1,29 @@
+parsing_current:
+    path: /
+    controller: App\Controller\ParserController::index
+    methods: GET
+
+parsing_view_posts:
+    path: /parsings/{parsing}
+    controller: App\Controller\ParserController::view
+    requirements:
+        parsing: '\d+'
+    methods: GET
+
+parsing_list:
+    path: /parsings
+    controller: App\Controller\ParserController::list
+    methods: GET
+
+parsing_update:
+    path: /parsings/update
+    controller: App\Controller\ParserController::run
+    methods: GET
+
+parsing_post_detail:
+    path: /parsings/{parsing}/posts/{post}
+    controller: App\Controller\ParserController::postDetail
+    requirements:
+        parsing: '\d+'
+        post: '\d+'
+    methods: GET
