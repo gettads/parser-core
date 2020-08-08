@@ -57,9 +57,11 @@ class ParserController extends AbstractController
     public function index()
     {
         $currentParsing = $this->parsingRepository->findLastOne();
-        $this->cropper->cropPostsForParsingEntity($currentParsing);
-        return $this->render('index/dashboard.html.twig', ['currentParsingState' => $currentParsing]);
+        if ($currentParsing !== null) {
+            $this->cropper->cropPostsForParsingEntity($currentParsing);
+        }
 
+        return $this->render('index/dashboard.html.twig', ['currentParsingState' => $currentParsing]);
     }
 
     public function run()

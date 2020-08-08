@@ -23,12 +23,11 @@
 # DEPLOY
 
 ## Steps on host:
-### 0. Create any dir, and make deploy steps inside of it:
-### 1. git clone https://github.com/gettads/parser-structure.git
-### 2. rm -rf ./www/app
+### 1. Create any dir, and make deploy steps inside of it:
+### 2. git clone https://github.com/gettads/parser-structure.git .
 ### 3. git clone https://github.com/gettads/parser-core.git ./www/app
 ### 4. docker-compose up -d --build
-### 5. docker exec -it php bash 
+### 5. docker exec -it php-parser bash 
 
 ## Steps inside of docker's contrainer (php-fpm):
 ### 6. cd /var/www/app
